@@ -108,6 +108,10 @@ export enum LOCAL_STORAGE_KEY {
    * Base URL 历史记录
    */
   BASE_URL_HISTORY = "base_url_history",
+  /**
+   * 聊天历史数据
+   */
+  CHAT_HISTORY_DATA = "chat_history_data",
 }
 
 export enum GUIDE_STEP {

@@ -1,31 +1,91 @@
 import { useEffect } from "react";
 import { useActiveModels } from "../store/app";
 import { getModelIcon, isVisionModel } from "./models";
-import { ERROR_PREFIX } from "./types";
+import { ERROR_PREFIX, LOCAL_STORAGE_KEY } from "./types";
 import { useMultiRows, useRefresh } from "./use";
 import { resizeBase64Image, streamChat } from "./utils";
 import { checkWebSearch } from "../services/api";
 import { getVisionModelOptionWidth } from "./options/chat-options";
+import { getJsonDataFromLocalStorage, setJsonDataToLocalStorage } from "./helpers";
+
+// 防抖保存函数,避免频繁写入 localStorage
+let saveTimeout = null;
+function debouncedSave() {
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+  }
+  saveTimeout = setTimeout(() => {
+    saveChatHistoryToStorage();
+  }, 1000); // 1秒后保存
+}
+
+// 从 localStorage 恢复聊天历史数据
+function loadChatHistoryFromStorage() {
+  const data = getJsonDataFromLocalStorage(LOCAL_STORAGE_KEY.CHAT_HISTORY_DATA, null);
+  if (data) {
+    return {
+      userMessages: data.userMessages || {},
+      messageImages: data.messageImages || {},
+      messageHistory: data.messageHistory || [],
+      allChatsData: data.allChats || {},
+      thoughts: data.thoughts || {},
+      webSearchResults: data.webSearchResults || {},
+    };
+  }
+  return {
+    userMessages: {},
+    messageImages: {},
+    messageHistory: [],
+    allChatsData: {},
+    thoughts: {},
+    webSearchResults: {},
+  };
+}
+
+// 保存聊天历史数据到 localStorage
+function saveChatHistoryToStorage() {
+  const data = {
+    userMessages,
+    messageImages,
+    messageHistory,
+    allChats: Object.keys(allChats).reduce((acc, model) => {
+      // 只保存必要的数据,不保存 controller 等运行时对象
+      acc[model] = {
+        messages: allChats[model].messages,
+        infos: allChats[model].infos,
+        images: allChats[model].images,
+        model: allChats[model].model,
+      };
+      return acc;
+    }, {}),
+    thoughts,
+    webSearchResults,
+  };
+  setJsonDataToLocalStorage(LOCAL_STORAGE_KEY.CHAT_HISTORY_DATA, data);
+}
+
+// 初始化时从 localStorage 恢复数据
+const savedData = loadChatHistoryFromStorage();
 
 /**
  * 用于存放用户信息，key 为时间戳
  */
-let userMessages = {};
+let userMessages = savedData.userMessages;
 /**
  * 用于存放对话图片信息，key 为时间戳
  */
-let messageImages = {};
+let messageImages = savedData.messageImages;
 let lastMessage = null;
 /**
  * 评估信息
  */
 let evaluationInput = {};
 
-let messageHistory = [];
+let messageHistory = savedData.messageHistory;
 
-let thoughts = {};
+let thoughts = savedData.thoughts;
 
-let webSearchResults = {};
+let webSearchResults = savedData.webSearchResults;
 
 function _addThought(chatId, model, content) {
   if (!thoughts[chatId]) {
@@ -56,6 +116,7 @@ function _addUserMessage(message, systemPrompt, image, activeModels) {
   userMessages[chatId] = message;
   messageImages[chatId] = image;
   lastMessage = newMessage;
+  saveChatHistoryToStorage(); // 保存到 localStorage
   return newMessage;
 }
 
@@ -73,6 +134,7 @@ export function removeUserMessage(chatId) {
   Object.keys(allChats).forEach((model) => {
     delete allChats[model].messages[chatId];
   });
+  saveChatHistoryToStorage(); // 保存到 localStorage
 }
 
 async function _streamChat(chat, newMessage, systemPrompt) {
@@ -107,6 +169,7 @@ async function _streamChat(chat, newMessage, systemPrompt) {
     if (!isThoughtStart) {
       // 非 thought 模式，直接输出内容
       _onChunkContent(content);
+      debouncedSave(); // 使用防抖保存
       return;
     } else if (!isThoughtEnd) {
       // 是 <Thought> 标签包裹的内容，且没有结束
@@ -129,12 +192,14 @@ async function _streamChat(chat, newMessage, systemPrompt) {
       chat.messages[chatId] = chat.messages[chatId]
         .replace("<Output>", "")
         .replace("</Output>", "");
+      debouncedSave(); // 使用防抖保存
     }
   };
   const _onEnd = (info) => {
     chat.loading = false;
     chat.infos[chatId] = info;
     chat.controller.current = null;
+    saveChatHistoryToStorage(); // 保存到 localStorage
   };
 
   const _onError = (err) => {
@@ -268,7 +333,7 @@ ${userInput}`;
 /**
  * 用于存放所有模型的聊天信息
  */
-const allChats = {};
+const allChats = savedData.allChatsData;
 
 export function useActiveChatsMessages() {
   const { activeModels } = useActiveModels();
@@ -366,6 +431,24 @@ export function useChatcolsChat(systemPrompt) {
           }
         },
       };
+    } else {
+      // 恢复运行时属性 (从 localStorage 加载的数据没有这些方法)
+      if (!allChats[item].controller) {
+        allChats[item].controller = {};
+      }
+      if (!allChats[item].stop) {
+        allChats[item].stop = function(clear) {
+          try {
+            this.controller.current?.abort();
+          } catch (error) {}
+          this.loading = false;
+          if (clear) {
+            this.messages = {};
+          }
+        };
+      }
+      // 重置 loading 状态
+      allChats[item].loading = false;
     }
     return allChats[item];
   });
@@ -403,9 +486,31 @@ export function useChatcolsChat(systemPrompt) {
     });
     if (clear) {
       userMessages = {};
+      messageImages = {};
+      messageHistory = [];
+      thoughts = {};
+      webSearchResults = {};
+      saveChatHistoryToStorage(); // 保存到 localStorage
     }
     refreshController.refresh();
   };
 
   return { loading, onSubmit, onStop, hasVisionModel, messageHistory };
+}
+
+/**
+ * 清除所有聊天历史 (从内存和 localStorage)
+ */
+export function clearChatHistory() {
+  userMessages = {};
+  messageImages = {};
+  messageHistory = [];
+  thoughts = {};
+  webSearchResults = {};
+  Object.keys(allChats).forEach((model) => {
+    allChats[model].messages = {};
+    allChats[model].infos = {};
+    allChats[model].images = {};
+  });
+  saveChatHistoryToStorage();
 }
