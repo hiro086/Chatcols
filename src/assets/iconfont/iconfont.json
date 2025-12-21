@@ -1,0 +1,191 @@
+{
+  "id": "5029778",
+  "name": "Chatcols",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "9263348",
+      "name": "up-square-fill",
+      "font_class": "up-square-fill",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "6080535",
+      "name": "target_grammar",
+      "font_class": "target_grammar",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "10130732",
+      "name": "expert",
+      "font_class": "expert",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "35901527",
+      "name": "proofreading",
+      "font_class": "proofreading",
+      "unicode": "e734",
+      "unicode_decimal": 59188
+    },
+    {
+      "icon_id": "44339438",
+      "name": "translate",
+      "font_class": "translate",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "45127429",
+      "name": "translate",
+      "font_class": "fanyi",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "966415",
+      "name": "upload-img",
+      "font_class": "uploadimg",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    },
+    {
+      "icon_id": "24038960",
+      "name": "license",
+      "font_class": "license",
+      "unicode": "e7cb",
+      "unicode_decimal": 59339
+    },
+    {
+      "icon_id": "44045144",
+      "name": "clear-formatting-1-filled",
+      "font_class": "clear-formatting-1-filled",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "12174636",
+      "name": "暗色模式",
+      "font_class": "dark_mode",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "40290430",
+      "name": "light_mode",
+      "font_class": "light_mode",
+      "unicode": "ee4a",
+      "unicode_decimal": 61002
+    },
+    {
+      "icon_id": "6192647",
+      "name": "settings",
+      "font_class": "settings",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "7009001",
+      "name": "select",
+      "font_class": "select",
+      "unicode": "e725",
+      "unicode_decimal": 59173
+    },
+    {
+      "icon_id": "8087146",
+      "name": "prompt",
+      "font_class": "prompt",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "8494288",
+      "name": "Target",
+      "font_class": "Target",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "10747009",
+      "name": "menu-06",
+      "font_class": "menu-",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "20284858",
+      "name": "live support agent headset",
+      "font_class": "livesupportagentheadset",
+      "unicode": "e7b5",
+      "unicode_decimal": 59317
+    },
+    {
+      "icon_id": "36738006",
+      "name": "settings",
+      "font_class": "settings1",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "38961998",
+      "name": "dark-mode",
+      "font_class": "dark-mode",
+      "unicode": "e8c1",
+      "unicode_decimal": 59585
+    },
+    {
+      "icon_id": "39180367",
+      "name": "remind-dark-mode",
+      "font_class": "remind-dark-mode",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    },
+    {
+      "icon_id": "39540682",
+      "name": "market_new_tab",
+      "font_class": "market_new_tab",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "40669004",
+      "name": "Command Prompt",
+      "font_class": "a-CommandPrompt",
+      "unicode": "e691",
+      "unicode_decimal": 59025
+    },
+    {
+      "icon_id": "41698301",
+      "name": "agent管理",
+      "font_class": "agentguanli",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "44687567",
+      "name": "Agent Management",
+      "font_class": "a-AgentManagement",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "45263487",
+      "name": "Prompt",
+      "font_class": "Prompt1",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "6395460",
+      "name": "userguide",
+      "font_class": "userguide",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    }
+  ]
+}

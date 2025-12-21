@@ -1,6 +1,6 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { Drawer, Button, Textarea, Space } from 'tdesign-react';
-import { getAllTextModels, isSiliconModel } from '@src/utils/models';
+import { getAllTextModels } from '@src/utils/models';
 
 import { useTranslation } from 'react-i18next';
 import ModelOption from '@src/components/ModelOption';
@@ -12,9 +12,7 @@ import { Switch } from 'tdesign-react';
 import { Input } from 'tdesign-react';
 import { Divider } from 'tdesign-react';
 const { FormItem } = Form;
-const allTextModels = getAllTextModels().filter(item =>
-  isSiliconModel(item.id)
-);
+const allTextModels = getAllTextModels();
 
 const WebSearchSettings = forwardRef((props, ref) => {
   const { t } = useTranslation();
@@ -56,7 +54,7 @@ const WebSearchSettings = forwardRef((props, ref) => {
       onClose={() => setIsOpen(false)}
       header={t('webSearch.settings')}
       footer={
-        <Space className="flex justify-end items-center gap-2">
+        <Space className="flex items-center justify-end gap-2">
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             {t('common.cancel')}
           </Button>
@@ -102,7 +100,7 @@ const WebSearchSettings = forwardRef((props, ref) => {
           help="联网搜索功能当前使用智谱 AI 的 API 接口，请前往智谱 AI 官网获取 API Key"
           statusIcon={
             <i
-              className="iconify mingcute--external-link-line cursor-pointer w-5 h-5 ml-1"
+              className="w-5 h-5 ml-1 cursor-pointer iconify mingcute--external-link-line"
               onClick={() =>
                 window.open(
                   'https://bigmodel.cn/usercenter/proj-mgmt/apikeys',
@@ -120,7 +118,7 @@ const WebSearchSettings = forwardRef((props, ref) => {
           name="searchEngine"
           statusIcon={
             <i
-              className="iconify mingcute--external-link-line cursor-pointer w-5 h-5 ml-1"
+              className="w-5 h-5 ml-1 cursor-pointer iconify mingcute--external-link-line"
               onClick={() =>
                 window.open(
                   'https://bigmodel.cn/dev/api/search-tool/web-search',

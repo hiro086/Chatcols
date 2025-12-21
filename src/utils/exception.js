@@ -1,4 +1,5 @@
-import { notification } from "tdesign-react";
+import { notification } from "tdesign-react/es/notification";
+import "tdesign-react/es/notification/style/css.js";
 import { clearUserData } from "./helpers";
 
 function init () {

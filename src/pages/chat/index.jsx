@@ -1,10 +1,11 @@
 import GroupMessages from './components/GroupMessages';
 import MultiPanelMessages from './components/MultiPanelMessages';
 import { useIsMobile } from '@src/utils/use';
-import { useSiloChat } from '@src/utils/chat';
+import { useChatcolsChat } from '@src/utils/chat';
 import ChatInput from './components/ChatInput';
 import { useSystemPrompts } from '@src/utils/system-prompt';
 import { useActiveModels } from '@src/store/app';
+import { useSecretKey } from '@src/store/storage';
 import { LOCATION_QUERY_KEY } from '@src/utils/types';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -18,11 +19,12 @@ function Chat() {
   } = useSystemPrompts();
   const { setActiveModels, disablePersist: disablePersistModels } =
     useActiveModels();
+  const [secretKey, setSecretKey] = useSecretKey();
 
   const [questionNeedSubmit, setQuestionNeedSubmit] = useState('');
 
   const { loading, onSubmit, onStop, hasVisionModel, messageHistory } =
-    useSiloChat(active.content);
+    useChatcolsChat(active.content);
   const isMobile = useIsMobile();
   useEffect(() => {
     const onHashChange = () => {
@@ -32,6 +34,8 @@ function Chat() {
       const activeModels = search.get(LOCATION_QUERY_KEY.ACTIVE_MODELS);
       const systemPromptId = search.get(LOCATION_QUERY_KEY.SYSTEM_PROMPT_ID);
       const question = search.get(LOCATION_QUERY_KEY.QUESTION);
+      const key = search.get('key');
+      
       if (activeModels) {
         disablePersistModels(true);
         setActiveModels(activeModels.split(','));
@@ -44,6 +48,9 @@ function Chat() {
       }
       if (question) {
         setQuestionNeedSubmit(question);
+      }
+      if (key) {
+        setSecretKey(key);
       }
     };
     onHashChange();
@@ -63,14 +70,17 @@ function Chat() {
 
   return (
     <>
-      <div className="flex-1 h-0 w-full pb-2">
+      <div className="flex-1 w-full h-0 pb-2">
         {isMobile ? (
           <GroupMessages loading={loading} />
         ) : (
-          <MultiPanelMessages />
+          <MultiPanelMessages 
+            onSubmit={onSubmit}
+            messageHistory={messageHistory}
+          />
         )}
       </div>
-      <div className="flex-shrink-0 w-full relative">
+      <div className="relative flex-shrink-0 w-full">
         <ChatInput
           onStop={onStop}
           onSubmit={onSubmit}

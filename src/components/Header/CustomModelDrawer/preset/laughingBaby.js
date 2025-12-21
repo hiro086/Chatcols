@@ -1,6 +1,6 @@
 async function laughingBabyChat (modelId, messages, options, controller, onChunk, onEnd, onError) {
     /**
-     * @param {String} modelId Silo/Laughing-Baby-16K
+     * @param {String} modelId Chatcols/Laughing-Baby-16K
      * @param {Array} messages Array, role and content
         [
             {
@@ -32,8 +32,8 @@ async function laughingBabyChat (modelId, messages, options, controller, onChunk
 
     // Actual processing function
 
-    // Parse out 16 or 32 based on the model ID, e.g., Silo/Laughing-Baby-16K is 16
-    const laughingTimes = parseInt(modelId.replace('Silo/Laughing-Baby-', ''));
+    // Parse out 16 or 32 based on the model ID, e.g., Chatcols/Laughing-Baby-16K is 16
+    const laughingTimes = parseInt(modelId.replace('Chatcols/Laughing-Baby-', ''));
     // Randomly throw an error to simulate a request error
     if (Math.random() > 0.8) {
         onError(new Error('The baby went to play somewhere else'))

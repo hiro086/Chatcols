@@ -21,7 +21,7 @@ const shortcuts = [
   {
     label: 'common.clear_all',
     action: SHORTCUTS_ACTIONS.CLEAR,
-    icon: 'i-mingcute-broom-line',
+    icon: 'i-mingcute-close-circle-fill',
   },
   {
     label: 'chat.stop',
@@ -40,19 +40,11 @@ export function useShortcuts(onAction) {
   const [selectedShortcutIndex, setSelectedShortcutIndex] = useState(0);
 
   const onInputHook = value => {
-    if (['/', '、'].includes(value[0])) {
-      setShowShortcuts(true);
-      const activeShortcut = shortcuts.find(shortcut =>
-        shortcut.action.startsWith(value.slice(1))
-      );
-      if (activeShortcut) {
-        setSelectedShortcutIndex(shortcuts.indexOf(activeShortcut));
-      } else {
-        setShowShortcuts(false);
-      }
-    } else {
-      setShowShortcuts(false);
-    }
+    // 移除弹窗触发逻辑，现在通过按钮手动触发
+  };
+
+  const toggleShortcuts = () => {
+    setShowShortcuts(!showShortcuts);
   };
 
   /**
@@ -87,6 +79,8 @@ export function useShortcuts(onAction) {
     showShortcuts,
     selectedShortcutIndex,
     setSelectedShortcutIndex,
+    toggleShortcuts,
+    setShowShortcuts,
   };
 }
 

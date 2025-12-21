@@ -1,12 +1,12 @@
-import { isNumber } from 'lodash-es';
-import { getSecretKey } from '../store/storage';
-import { LOCAL_STORAGE_KEY } from './types';
+import { isNumber } from "lodash-es";
+import { getSecretKey } from "../store/storage";
+import { LOCAL_STORAGE_KEY } from "./types";
 
 export function getJsonDataFromLocalStorage<T>(
   key: LOCAL_STORAGE_KEY,
   defaultValue: T
 ) {
-  return JSON.parse(getLocalStorage(key) || 'null') || defaultValue;
+  return JSON.parse(getLocalStorage(key) || "null") || defaultValue;
 }
 
 export function setJsonDataToLocalStorage(key: LOCAL_STORAGE_KEY, value: any) {
@@ -17,7 +17,7 @@ export function setLocalStorage(key: LOCAL_STORAGE_KEY, value: string) {
   localStorage.setItem(key, value);
 }
 
-export function getLocalStorage(key: LOCAL_STORAGE_KEY, defaultValue = '') {
+export function getLocalStorage(key: LOCAL_STORAGE_KEY, defaultValue = "") {
   return localStorage.getItem(key) || defaultValue;
 }
 
@@ -32,7 +32,7 @@ export function generateId() {
  * 清除用户数据，重启用
  */
 export function clearUserData(clearToken = false) {
-  let token = '';
+  let token = "";
   if (!clearToken) {
     token = getLocalStorage(LOCAL_STORAGE_KEY.SECRET_KEY);
   }
@@ -55,27 +55,27 @@ export const getChatCompletion = async (
   retryLimit = 3
 ) => {
   const sk = getSecretKey();
-  if (!sk) throw new Error('缺少密钥');
+  if (!sk) throw new Error("缺少密钥");
   const { modelId, systemPrompt, temperature, json, top_p, ...rest } =
     options || {};
 
-  const url = 'https://api.siliconflow.cn/v1/chat/completions';
+  const url = "https://aianswers.cn/v1/chat/completions";
   const messages = [] as any[];
   const response_format = options?.json
     ? {
-        type: 'json_object',
+        type: "json_object",
       }
     : undefined;
-  if (systemPrompt) messages.push({ role: 'system', content: systemPrompt });
-  messages.push({ role: 'user', content: prompt });
+  if (systemPrompt) messages.push({ role: "system", content: systemPrompt });
+  messages.push({ role: "user", content: prompt });
   const requestOption = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${sk}`,
     },
     body: JSON.stringify({
-      model: modelId || 'Qwen/Qwen2.5-7B-Instruct',
+      model: modelId || "gpt-4o",
       messages,
       temperature: top_p || isNumber(temperature) ? temperature : 0.7,
       top_p,
@@ -86,7 +86,7 @@ export const getChatCompletion = async (
   try {
     const response = await fetch(url, requestOption);
     if (!response.ok) {
-      throw new Error('API请求失败');
+      throw new Error("API请求失败");
     }
     const data = await response.json();
     try {
@@ -94,7 +94,7 @@ export const getChatCompletion = async (
       if (json) return JSON.parse(result);
       return result;
     } catch (e) {
-      console.log('解析GPT数据出错：', e);
+      console.log("解析GPT数据出错：", e);
       if (retryLimit > 0) {
         return getChatCompletion(prompt, options, retryLimit - 1);
       } else {
@@ -102,7 +102,7 @@ export const getChatCompletion = async (
       }
     }
   } catch (error) {
-    console.error('获取GPT响应失败:', error);
+    console.error("获取GPT响应失败:", error);
     throw error;
   }
 };

@@ -33,9 +33,9 @@ const ImageUploader = forwardRef(({ onUpload, className }, ref) => {
       accept="image/*"
       autoUpload={false}
       multiple={false}
-      className={'w-6 h-6 flex items-center justify-center ' + className}
+      className={'w-5 h-5 flex items-center justify-center ' + className}
     >
-      <i className="i-mingcute-upload-2-line opacity-30 hover:opacity-100 transition-opacity duration-300 leading-6 w-5 h-5 !block cursor-pointer" />
+      <i className="iconfont icon-uploadimg opacity-30 hover:opacity-100 transition-opacity duration-300 leading-6 w-5 h-5 !block cursor-pointer" />
     </Upload>
   );
 });

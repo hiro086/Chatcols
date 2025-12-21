@@ -1,31 +1,36 @@
-import { useEffect, Fragment } from 'react';
-import AiMessage from '@src/pages/chat/components/AiMessage';
-import UserMessage from '@src/pages/chat/components/UserMessage';
-import ChatHolder from '@src/pages/chat/components/ChatHolder';
-import { Popup } from 'tdesign-react';
-import { getAllTextModels } from '@src/utils/models';
-import { useActiveModels } from '@src/store/app';
+import { useEffect, Fragment } from "react";
+import AiMessage from "@src/pages/chat/components/AiMessage";
+import UserMessage from "@src/pages/chat/components/UserMessage";
+import { Popup } from "tdesign-react";
+import { getAllTextModels } from "@src/utils/models";
+import { useActiveModels } from "@src/store/app";
 import {
   getChatMessageInfo,
   useChatMessages,
   useSingleChat,
-} from '@src/utils/chat';
-import ChatOptionAdjust from './ChatOptionAdjust';
-import { useAutoScrollToBottomRef, useRefresh } from '@src/utils/use';
-import { useRef } from 'react';
-import { useZenMode } from '@src/store/storage';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dropdown } from 'tdesign-react';
-import ChatModelSelector from './ChatModelSelector';
-import { message } from 'tdesign-react';
-import { GUIDE_STEP } from '@src/utils/types';
-export default function ({ model, plain = false, className = '' }) {
+} from "@src/utils/chat";
+import ChatOptionAdjust from "./ChatOptionAdjust";
+import { useAutoScrollToBottomRef, useRefresh } from "@src/utils/use";
+import { useRef } from "react";
+import { useZenMode } from "@src/store/storage";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Dropdown } from "tdesign-react";
+import ChatModelSelector from "./ChatModelSelector";
+import { message } from "tdesign-react";
+import { GUIDE_STEP } from "@src/utils/types";
+export default function ({
+  model,
+  plain = false,
+  className = "",
+  onSubmit,
+  messageHistory = [],
+}) {
   const { t } = useTranslation();
   const messages = useChatMessages(model);
   const { activeModels, removeActiveModel } = useActiveModels();
   const allTextModels = getAllTextModels();
-  const modelDetail = allTextModels.find(item => item.id === model) || {};
+  const modelDetail = allTextModels.find((item) => item.id === model) || {};
 
   const [isZenMode] = useZenMode();
 
@@ -53,11 +58,11 @@ export default function ({ model, plain = false, className = '' }) {
 
   const [isMouseOver, _setIsMouseOver] = useState(false);
   const mouseOverRef = useRef();
-  const toggleMouseOver = value => {
+  const toggleMouseOver = (value) => {
     _setIsMouseOver(value);
     mouseOverRef.current = value;
   };
-  const iconClassName = 'cursor-pointer text-lg opacity-70 ml-2 flex-shrink-0 ';
+  const iconClassName = "cursor-pointer text-lg opacity-70 ml-2 flex-shrink-0 ";
   const { scrollRef, scrollToBottom } = useAutoScrollToBottomRef();
 
   const lastAiMessage = messages[messages.length - 1];
@@ -72,10 +77,10 @@ export default function ({ model, plain = false, className = '' }) {
     <div
       data-model={model}
       className={
-        'h-full ' +
+        "h-full " +
         (plain
-          ? 'flex-1 relative '
-          : 'flex-1 min-w-96 w-0 flex-shrink-0 relative mr-2 first:ml-2 rounded-md border-2 border-gray-200 dark:border-gray-950')
+          ? "flex-1 relative bg-gray-100 dark:bg-black dark:border-[#2F2F2F]"
+          : "flex-1 min-w-96 w-0 flex-shrink-0 relative mr-2 first:ml-2 rounded-md border-[0.5px] border-gray-200 dark:border-[#2F2F2F] bg-gray-100 dark:bg-black")
       }
       onMouseOver={() => toggleMouseOver(true)}
       onMouseOut={() => toggleMouseOver(false)}
@@ -83,14 +88,37 @@ export default function ({ model, plain = false, className = '' }) {
       {!plain && (
         <div
           className={
-            'h-10 z-20 rounded filter  backdrop-blur overflow-hidden items-center px-2  flex absolute top-0 left-0 right-0 bg-[#fff8] dark:bg-[#0008] shadow-sm transform transition-visible duration-300 delay-150 ' +
-            (isZenMode ? '-translate-y-full opacity-0 hover:opacity-100' : '')
+            "h-10 z-20 rounded-md filter  backdrop-blur overflow-hidden items-center px-2  flex absolute top-0 left-0 right-0 bg-white dark:bg-[#1A1A1A] shadow-sm transform transition-visible duration-300 delay-150 " +
+            (isZenMode ? "-translate-y-full opacity-0 hover:opacity-100" : "")
           }
         >
           <ChatModelSelector model={model} />
 
           <i
-            className={iconClassName + ' sortable-drag i-mingcute-move-line'}
+            id={GUIDE_STEP.CHAT_RESEND_MESSAGE}
+            className={
+              iconClassName + " sortable-drag i-mingcute-rotate-y-line"
+            }
+            onClick={() => {
+              if (messageHistory.length > 0 && onSubmit) {
+                // 获取最后一条用户消息
+                const lastMessage = messageHistory[messageHistory.length - 1];
+                if (lastMessage && lastMessage.message) {
+                  // 重新发送最后一条消息
+                  onSubmit(
+                    lastMessage.message,
+                    lastMessage.image,
+                    model ?? null
+                  );
+                }
+              }
+            }}
+          ></i>
+          <i
+            className={iconClassName + " sortable-drag i-mingcute-eraser-line"}
+            onClick={() => {
+              onStop(true);
+            }}
           ></i>
           <Popup
             content={<ChatOptionAdjust model={model} />}
@@ -101,7 +129,7 @@ export default function ({ model, plain = false, className = '' }) {
           >
             <i
               id={GUIDE_STEP.CHAT_OPTIONS_ADJUST}
-              className={iconClassName + 'i-mingcute-settings-2-line '}
+              className={iconClassName + "i-mingcute-settings-2-line "}
             />
           </Popup>
           <Dropdown
@@ -110,64 +138,67 @@ export default function ({ model, plain = false, className = '' }) {
             trigger="click"
             options={[
               {
-                icon: 'i-mingcute-copy-2-line',
+                icon: "i-mingcute-copy-2-line",
                 onClick: () => {
                   navigator.clipboard.writeText(model).then(() => {
-                    message.success(t('common.copied'));
+                    message.success(t("common.copied"));
                   });
                 },
-                text: t('common.copy_id'),
+                text: t("common.copy_id"),
               },
+              // {
+              //   icon: 'i-mingcute-arrow-up-circle-fill',
+              //   onClick: () => {
+              //     if (messageHistory.length > 0 && onSubmit) {
+              //       // 获取最后一条用户消息
+              //       const lastMessage = messageHistory[messageHistory.length - 1];
+              //       if (lastMessage && lastMessage.message) {
+              //         // 重新发送最后一条消息
+              //         onSubmit(lastMessage.message, lastMessage.image, model ?? null);
+              //       }
+              //     }
+              //   },
+              //   text: t('common.resend_last'),
+              //   hidden: modelDetail?.isCustom && !modelDetail.link,
+              // },
+              // {
+              //   icon: 'i-mingcute-broom-line',
+              //   onClick: () => onStop(true),
+              //   text: t('common.clear'),
+              // },
               {
-                icon:
-                  !modelDetail.link ||
-                  modelDetail.link.startsWith('https://huggingface.co/')
-                    ? 'i-logos-hugging-face-icon'
-                    : 'i-mingcute-external-link-line',
-                onClick: () => {
-                  if (modelDetail.link) {
-                    window.open(modelDetail.link, '_blank');
-                    return;
-                  }
-                  window.open('https://huggingface.co/' + model, '_blank');
-                },
-                text: t('common.details'),
-                hidden: modelDetail?.isCustom && !modelDetail.link,
-              },
-              {
-                icon: 'i-mingcute-broom-line',
-                onClick: () => onStop(true),
-                text: t('common.clear'),
-              },
-              {
-                icon: 'i-mingcute-close-line',
+                icon: "i-mingcute-close-line",
                 danger: true,
                 disabled: activeModels.length === 1,
                 onClick: onClose,
-                text: t('common.close'),
+                text: t("common.close"),
               },
             ]
-              .filter(item => !item.hidden)
-              .map(item => ({
-                prefixIcon: <i className={item.icon + ' mr-0'} />,
+              .filter((item) => !item.hidden)
+              .map((item) => ({
+                prefixIcon: <i className={item.icon + " mr-0"} />,
                 content: item.text,
                 onClick: item.onClick,
                 disabled: item.disabled,
                 value: item.text,
               }))}
           >
-            <i className={iconClassName + 'i-mingcute-more-2-fill'}></i>{' '}
+            <i className={iconClassName + "i-mingcute-more-2-fill"}></i>{" "}
           </Dropdown>
         </div>
       )}
 
       {messages.length == 0 ? (
-        <ChatHolder model={model} />
+        <div className="flex flex-col items-center justify-center w-full h-full px-4 select-none">
+          <p className="text-[#666] mt-4 text-sm text-center">
+            小孩子才做选择，大人当然全都要！
+          </p>
+        </div>
       ) : (
         <div
           className={
-            'w-full flex flex-col h-full overflow-auto ' +
-            (plain || isZenMode ? ' pt-2 px-2' : ' pt-12 px-2 text-sm ')
+            "w-full flex flex-col h-full overflow-auto " +
+            (plain || isZenMode ? " pt-2 px-2" : " pt-12 px-2 text-sm")
           }
           ref={scrollRef}
         >

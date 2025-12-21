@@ -9,7 +9,7 @@ export default defineContentScript({
   async main(ctx) {
     console.log('content script injecting', ctx);
     const ui = await createShadowRootUi(ctx, {
-      name: 'silo-ui',
+      name: 'chatcols-ui',
       position: 'overlay',
       alignment: 'bottom-right',
       zIndex: 99999,

@@ -1,7 +1,6 @@
 import { Select } from 'tdesign-react';
-import { getAllTextModels, isSiliconModel } from '@src/utils/models';
+import { getAllTextModels } from '@src/utils/models';
 import { useActiveModels } from '@src/store/app';
-import ScLogo from '@src/assets/img/sc-logo.png';
 import { GUIDE_STEP } from '@src/utils/types';
 import ModelOption from '@src/components/ModelOption';
 
@@ -15,7 +14,6 @@ export default function ({ model }) {
 
   const hasActiveCustomModel = activeModels.some(
     item =>
-      !isSiliconModel(item) &&
       modelDetail.series?.startsWith(item.split('/')[0])
   );
 
@@ -33,12 +31,12 @@ export default function ({ model }) {
       prefixIcon={
         <div className="relative">
           <img src={modelDetail.icon} className="relative w-4 h-4 rounded-sm" />
-          {hasActiveCustomModel && !modelDetail?.isCustom && (
+          {/* {hasActiveCustomModel && !modelDetail?.isCustom && (
             <img
               className="absolute -bottom-[2px] -right-[2px] w-[8px] h-[8px]"
               src={ScLogo}
             />
-          )}
+          )} */}
         </div>
       }
       filterable

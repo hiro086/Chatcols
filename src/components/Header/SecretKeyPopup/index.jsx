@@ -1,222 +1,237 @@
-import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import { useSecretKey, useBaseUrl, useSecretKeyHistory, useBaseUrlHistory } from "@src/store/storage";
 import {
-  isExperienceSK,
-  usePaidSkPassword,
-  useSecretKey,
-} from '@src/store/storage';
-import ScLogo from '@src/assets/img/sc-logo.png';
-import { notification, Button } from 'tdesign-react';
-import { useTranslation } from 'react-i18next';
-import { SILO_ENV } from '@src/utils/env';
+  OpenAILogo,
+  LinkLogo,
+  ClaudeLogo,
+  GeminiLogo,
+  DeepSeekLogo,
+  DotsLogo
+} from "@src/components/icons/ModelLogos";
+import { useTranslation } from "react-i18next";
 
-const SecretKeyPopup = forwardRef(({ onImport, checkKeyValid }, ref) => {
-  useImperativeHandle(ref, () => ({
-    open: () => setShowPopup(true),
-    isShow: () => showPopup,
-  }));
+const SecretKeyPopup = forwardRef(
+  ({ onImport, checkKeyValid, onClose: onCloseCallback }, ref) => {
+    useImperativeHandle(ref, () => ({
+      open: () => setShowPopup(true),
+      isShow: () => showPopup,
+    }));
 
-  const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
 
-  const [secretKey, setSecretKey] = useSecretKey();
-  const [paidSkPassword, setPaidSkPassword, paidKeyError] = usePaidSkPassword();
-  const [paidSkInput, setPaidSkInput] = useState('');
-  const onSubmitPaidSkPassword = () => {
-    setPaidSkPassword(paidSkInput);
-  };
+    const [secretKey, setSecretKey] = useSecretKey();
+    const [baseUrl, setBaseUrl] = useBaseUrl();
+    const [keyHistory, addToKeyHistory] = useSecretKeyHistory();
+    const [urlHistory, addToUrlHistory] = useBaseUrlHistory();
 
-  const [error, setError] = useState('');
+    const [error, setError] = useState("");
+    const [showBaseUrlInput, setShowBaseUrlInput] = useState(true);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [showUrlDropdown, setShowUrlDropdown] = useState(false);
 
-  const onClose = () => {
-    setError('');
-    setShowPopup(false);
-  };
+    const onClose = () => {
+      setError("");
+      setShowPopup(false);
+      setShowDropdown(false);
+      setShowUrlDropdown(false);
+      // Call the callback if provided
+      if (onCloseCallback) {
+        onCloseCallback();
+      }
+    };
 
-  const { t } = useTranslation();
+    const { t } = useTranslation();
 
-  const check = () => {
-    checkKeyValid()
-      .then(onClose)
-      .catch(err => {
-        console.log(err);
-        console.log(err.message);
+    const check = () => {
+      checkKeyValid(secretKey)
+        // .then(onClose)
+        .then(() => {
+          // 验证成功后，保存到历史记录
+          if (secretKey) {
+            addToKeyHistory(secretKey);
+            addToUrlHistory(baseUrl);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(err.message);
 
-        setError(err.message);
-        setShowPopup(true);
-      });
-  };
-  useEffect(() => {
-    if (isExperienceSK()) {
-      notification.info({
-        title: t('common.experience_key_title'),
-        content: t('common.experience_key_content'),
-        closeBtn: true,
-        duration: 1000 * 6,
-        placement: 'bottom-right',
-        offset: [-20, -20],
-      });
-    }
-    setError('');
-    check();
-  }, [secretKey]);
-  useEffect(() => {
-    check();
-  }, [paidSkPassword]);
+          setError(err.message);
+          setShowPopup(true);
+        });
+    };
+    useEffect(() => {
+      setError("");
+      check();
+    }, [secretKey]);
 
-  const isCurrentKeyValid = !error;
+    // 选择 secretKey 历史记录
+    const handleSelectHistory = (key) => {
+      setSecretKey(key);
+      setShowDropdown(false);
+    };
 
-  if (!showPopup) return null;
+    // 选择 baseUrl 历史记录
+    const handleSelectUrlHistory = (url) => {
+      setBaseUrl(url);
+      setShowUrlDropdown(false);
+    };
 
-  return (
-    <div
-      onClick={() => isCurrentKeyValid && onClose()}
-      className="fixed z-50 top-0 left-0 w-full h-full bg-black filter backdrop-blur-sm bg-opacity-50 flex justify-center items-center"
-    >
-      <div className="relative w-10/12 lg:w-[600px] py-8 flex flex-col bg-white dark:bg-gray-900 rounded-lg p-4 text-center leading-4">
-        {isCurrentKeyValid && (
-          <i
-            className="i-mingcute-close-line opacity-70 text-2xl absolute top-4 right-4 cursor-pointer"
-            onClick={onClose}
-          ></i>
-        )}
-        <div
-          className="w-full flex-1 flex flex-col justify-center items-center"
-          onClick={e => e.stopPropagation()}
-        >
-          {!!SILO_ENV.IS_PAID_SK_ENCRYPTED ? (
+    const isCurrentKeyValid = !error;
+
+    if (!showPopup) return null;
+
+    return (
+      <div
+        onClick={() => isCurrentKeyValid && onClose()}
+        className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50 filter backdrop-blur-sm"
+      >
+        <div className="relative w-10/12 lg:w-[600px] py-8 flex flex-col bg-white dark:bg-[#1A1A1A] rounded-lg p-4 text-center leading-4">
+          {isCurrentKeyValid && (
+            <i
+              className="absolute text-2xl cursor-pointer i-mingcute-close-line opacity-70 top-4 right-4"
+              onClick={onClose}
+            ></i>
+          )}
+          <div
+            className="flex flex-col items-center justify-center flex-1 w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
             <>
               <div className="flex items-center justify-center mb-6">
-                <img src="/logo.svg" alt="SiloChat" className="h-16" />
+                <img
+                  src="./logo.svg"
+                  alt="ChatcolsChat"
+                  className="h-4 mr-4 md:h-10"
+                />
+                <LinkLogo className="h-4 mr-4 rounded-md md:h-6" />
+                <DeepSeekLogo className="h-6 mr-2 rounded-md md:h-12" />
+                <ClaudeLogo className="h-4 mr-2 rounded-md md:h-10" />
+                <OpenAILogo className="h-4 mr-2 rounded-md md:h-10" />
+                <GeminiLogo className="h-4 mr-6 rounded-md md:h-10" />
+                <DotsLogo className="h-2 mr-2 rounded-md md:h-4" />
               </div>
-              <input
-                type="password"
-                value={paidSkInput}
-                autoFocus={!paidSkInput}
-                onChange={e => setPaidSkInput(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    onSubmitPaidSkPassword();
-                  }
-                }}
-                placeholder={t('header.popup.enter_key_password')}
-                className="w-full h-12 outline-none text-center bg-gray-100 dark:bg-gray-800 rounded-xl px-4"
-              />
-              {!!paidKeyError && (
-                <span className="mt-4 text-sm text-red-400">
-                  {t(paidKeyError)}
-                </span>
-              )}
-              {!!secretKey && error && (
-                <span className="mt-4 text-sm text-red-400">{error}</span>
-              )}
-              <Button
-                className="mt-4"
-                theme="primary"
-                variant="text"
-                onClick={onSubmitPaidSkPassword}
-              >
-                {t('common.confirm')}
-              </Button>
-            </>
-          ) : (
-            <>
-              <div className="flex items-center justify-center mb-6">
-                <img src="/logo.svg" alt="SiloChat" className="h-16 mr-8" />
-                <img src={ScLogo} alt="硅基流动" className="h-16 rounded-md" />
-              </div>
-              <input
-                type="text"
-                value={secretKey}
-                autoFocus={!secretKey}
-                onChange={e => setSecretKey(e.target.value)}
-                placeholder={t('header.popup.enter_siliconcloud_key')}
-                className="w-full h-12 outline-none text-center bg-gray-100 dark:bg-gray-800 rounded-xl px-4"
-              />
-
-              {!!secretKey && error && (
-                <span className="mt-4 text-sm text-red-400">{error}</span>
-              )}
-              <span className="mt-6 text-sm text-gray-500">
-                {t('header.popup.intro1')}
-                <br />
-                <a className="mx-1" target="_blank" href={SILO_ENV.AFF_LINK}>
-                  {t('header.popup.register_siliconcloud')}
+              
+              <span className="mt-2 text-sm text-gray-500">
+                {t("header.popup.intro1")}
+                <a href="https://aianswers.cn" target="_blank">
+                  {t("header.popup.intro4")}
                 </a>
-                {t('header.popup.free_credit')}
+                <br />
               </span>
 
-              <span className="mt-4 text-sm text-gray-500">
-                {t('header.popup.have_account')}
-                <a
-                  className="mx-1 cursor-pointer"
-                  target="_blank"
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
+                  onFocus={() => keyHistory.length > 0 && setShowDropdown(true)}
+                  onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                  placeholder={t("header.popup.enter_aibox_key")}
+                  className="w-full h-12 px-4 text-center bg-gray-100 outline-none dark:bg-black rounded-xl"
+                />
+                {showDropdown && keyHistory.length > 0 && (
+                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2A2A] border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    {keyHistory.map((key, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleSelectHistory(key)}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-left truncate"
+                        title={key}
+                      >
+                        {key}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {secretKey=="sk-18TyZMF9c5G37zM7AMsG2UjXlIftgPVCSUFI0FjAMv4AGmmd" && (
+                <span className="mt-1 text-xs text-blue-400 text-left w-full">*此试用令牌仅支持三个模型：gpt-5-nano、claude-haiku-4.5、gemini-2.5-flash</span>
+              )}
+              {!!secretKey && error && (
+                <span className="mt-2 text-sm text-red-400">{error}</span>
+              )}
+              
+              {/* {showBaseUrlInput && ( */}
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={baseUrl}
+                  autoFocus={true}
+                  onChange={(e) => setBaseUrl(e.target.value)}
+                  onBlur={() => {
+                    setTimeout(() => setShowUrlDropdown(false), 200);
+                    setShowBaseUrlInput(false);
+                  }}
+                  placeholder={t("header.popup.enter_base_url")}
+                  className="w-full h-12 px-4 mt-2 text-center bg-gray-100 outline-none dark:bg-black rounded-xl"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setShowBaseUrlInput(false);
+                    }
+                  }}
+                />
+                {showUrlDropdown && urlHistory.length > 0 && (
+                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2A2A] border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    {urlHistory.map((url, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleSelectUrlHistory(url)}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-left truncate"
+                        title={url}
+                      >
+                        {url}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {/* } */}
+
+              
+
+              <span className="mt-2 text-xs text-blue-400 text-left w-full">
+                {t("header.popup.intro2")}
+                {t("header.popup.update_base_url")}
+                {/* {t("header.popup.intro3")} */}
+              </span>
+
+              <span className="mt-2 text-xs text-blue-400 text-left w-full">
+                {t("header.popup.key_storage_notice")}
+              </span>
+
+              {/* <span className="mt-4 text-sm text-gray-500">
+              {t('header.popup.have_config')}
+              <a
+                className="mx-1 cursor-pointer"
+                target="_blank"
+                onClick={onImport}
+              >
+                {t('header.popup.click_to_import')}
+              </a>
+            </span>
+
+            {AIBOX_ENV.EXPERIENCE_SK && (
+              <>
+                <span
+                  className="mt-4 text-sm text-blue-400 cursor-pointer"
                   onClick={() => {
-                    const clientId = 'SFaJLLq0y6CAMoyDm81aMu';
-                    const ACCOUNT_ENDPOINT = 'https://account.siliconflow.cn';
-                    const authUrl = `${ACCOUNT_ENDPOINT}/oauth?client_id=${clientId}`;
-                    const popup = window.open(
-                      authUrl,
-                      'oauthPopup',
-                      'width=600,height=600'
-                    );
-                    window.addEventListener('message', event => {
-                      if (
-                        event.data.length > 0 &&
-                        event.data[0]['secretKey'] !== undefined
-                      ) {
-                        setSecretKey(event.data[0]['secretKey']);
-                        popup.close();
-                      }
-                    });
+                    setSecretKey();
                   }}
                 >
-                  {t('header.popup.siliconflow_oauth')}
-                </a>
-                {t('header.popup.or')}
-                <a
-                  className="mx-1"
-                  href="https://cloud.siliconflow.cn/account/ak"
-                  target="_blank"
-                >
-                  {t('header.popup.get_siliconcloud_key')}
-                </a>
-              </span>
-
-              <span className="mt-4 text-sm text-gray-500">
-                {t('header.popup.key_storage_notice')}
-              </span>
-
-              <span className="mt-4 text-sm text-gray-500">
-                {t('header.popup.have_config')}
-                <a
-                  className="mx-1 cursor-pointer"
-                  target="_blank"
-                  onClick={onImport}
-                >
-                  {t('header.popup.click_to_import')}
-                </a>
-              </span>
-
-              {SILO_ENV.EXPERIENCE_SK && (
-                <>
-                  <span
-                    className="text-blue-400 cursor-pointer mt-4 text-sm"
-                    onClick={() => {
-                      setSecretKey();
-                    }}
-                  >
-                    🤖 {t('header.popup.use_experience_key')} 🤖
-                  </span>
-                  <span className="mt-2 text-xs text-gray-600">
-                    {t('header.popup.experience_key_warning')}
-                  </span>
-                </>
-              )}
+                  🤖 {t('header.popup.use_experience_key')} 🤖
+                </span>
+                <span className="mt-2 text-xs text-gray-600">
+                  {t('header.popup.experience_key_warning')}
+                </span>
+              </>
+            )} */}
             </>
-          )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default SecretKeyPopup;

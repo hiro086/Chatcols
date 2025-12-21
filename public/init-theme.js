@@ -3,7 +3,7 @@ function updateThemeColor (isDark) {
   const themeColorMeta = document.querySelectorAll('meta[name="theme-color"]');
   if (themeColorMeta.length) {
     themeColorMeta.forEach(meta => {
-      meta.content = isDark ? '#242424' : '#f7f7f7';
+      meta.content = isDark ? '#242424' : '#F8F8F8';
     })
   }
 }

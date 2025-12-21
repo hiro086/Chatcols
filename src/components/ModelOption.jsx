@@ -1,5 +1,5 @@
-import { Tag } from 'tdesign-react';
-import { useTranslation } from 'react-i18next';
+import { Tag } from "tdesign-react";
+import { useTranslation } from "react-i18next";
 
 export default function ModelOption({ option }) {
   const { t } = useTranslation();
@@ -12,14 +12,14 @@ export default function ModelOption({ option }) {
           alt={option.name}
         />
         <span>{option.name}</span>
-        {option.price === -1 && (
+        {/* {option.price === -1 && (
           <Tag className="ml-2 scale-[0.8]" size="small" theme="primary">
             Trial
           </Tag>
-        )}
+        )} */}
         {option.price === 0 && (
           <Tag className="ml-2 scale-[0.8]" size="small" theme="primary">
-            Free
+            免费
           </Tag>
         )}
         {!!option.isCustom && (
@@ -29,14 +29,24 @@ export default function ModelOption({ option }) {
             theme="warning"
             variant="light-outline"
           >
-            Custom
+            自定义
+          </Tag>
+        )}
+        {!!option.vision && (
+          <Tag
+            className="scale-[0.8]"
+            size="small"
+            theme="danger"
+            variant="light-outline"
+          >
+            视觉
           </Tag>
         )}
       </div>
       <div className="flex items-center">
         {!!option.series && (
           <Tag variant="outline" size="small" theme="primary">
-            {option.series}
+            <span className="capitalize">{option.series}</span>
           </Tag>
         )}
         {!!option.length && (
@@ -47,26 +57,6 @@ export default function ModelOption({ option }) {
         {option.price > 0 && (
           <Tag className="ml-2" variant="outline" size="small" theme="primary">
             ¥{option.price}/1M
-          </Tag>
-        )}
-        {option.needVerify && (
-          <Tag className="ml-2" variant="outline" size="small" theme="primary">
-            {t('common.auth_required')}
-          </Tag>
-        )}
-        {option.isPro && (
-          <Tag size="small" variant="outline" theme="primary" className="ml-2">
-            {t('common.pro')}
-          </Tag>
-        )}
-        {option.vision && (
-          <Tag size="small" variant="outline" theme="warning" className="ml-2">
-            {t('common.vision')}
-          </Tag>
-        )}
-        {option.isVendorA && (
-          <Tag size="small" variant="outline" theme="success" className="ml-2">
-            {t('common.china_vendor')}
           </Tag>
         )}
       </div>

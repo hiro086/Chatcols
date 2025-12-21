@@ -1,6 +1,6 @@
 env:
   DIRECTORY: .output
-  PROJECT_NAME: silo
+  PROJECT_NAME: chatcols
 
 name: Deploy
 

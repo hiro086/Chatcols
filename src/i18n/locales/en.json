@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "Silo - Multi-model chat, text-to-image",
+    "title": "ChatCols | All-in-one 大模型对话应用",
     "copied": "Copied",
     "apply_to_all": "Apply to all",
     "apply_to_all_tooltip": "Different models may support different parameters or valid ranges, and will try to apply the current configuration to other models as much as possible",
@@ -8,6 +8,7 @@
     "experience_key_title": "You are using an experience key",
     "experience_key_content": "The experience key may trigger speed limits due to multiple use, it is recommended that you timely replace it with your own key.",
     "confirm": "Confirm",
+    "warning": "Tips",
     "confirm_clear_all_dialog": "Are you sure you want to clear all conversations?",
     "required": "Required",
     "form_validation_failed": "Form validation failed",
@@ -19,6 +20,7 @@
     "description": "Description",
     "content": "Content",
     "select": "Select",
+    "resend_last": "Resend Last",
     "remove": "Remove",
     "translate_to_english": "Bilingual Translation",
     "back": "Back",
@@ -76,14 +78,18 @@
     "edge_addons": "Edge Addons",
     "popup": {
       "enter_key_password": "Enter password here",
-      "enter_siliconcloud_key": "Enter SiliconCloud API key here",
-      "intro1": "This site provides multi-model chat and text-to-image capabilities mainly based on SiliconCloud API, you need to register a SiliconCloud account first",
-      "register_siliconcloud": "Now register for SiliconCloud",
+      "enter_aibox_key": "Enter API key here",
+      "enter_base_url": "Enter Base_URL here, usually the proxy domain",
+      "intro1": "This site provides multi-model chat and text-to-image capabilities mainly based on AI-BOX API, you need to register a AI-BOX account first",
+      "intro2": "If you have subscribed to other proxy services, please",
+      "intro3": "(up to three large models can be asked simultaneously).",
+      "update_base_url": "Change Base_Url",
+      "register_aibox": "Now register for AI-BOX",
       "free_credit": "and the official will also gift a 14 yuan credit for experiencing the paid model.",
       "have_account": "If you already have an account, you can use",
-      "siliconflow_oauth": "SiliconFlow OAuth Login",
+      "aiboxflow_oauth": "SiliconFlow OAuth Login",
       "or": "or you can",
-      "get_siliconcloud_key": "click here to get the SiliconCloud key",
+      "get_aibox_key": "click here to get the AI-BOX key",
       "key_storage_notice": "Your key will only be stored in the browser, please use this app only on a secure device",
       "have_config": "Already have a configuration file?",
       "click_to_import": "Click here to import",
@@ -136,7 +142,9 @@
     "start_generation": "Start Generation",
     "stop": "Stop Chat",
     "resend_last": "Resend Last",
-    "add_prompt": "New Prompt"
+    "add_prompt": "New Prompt",
+    "shortcuts": "Shortcuts",
+    "free_limit_exceeded": "Free key input limit: max 500 characters or 300 Chinese characters"
   },
   "config_import": {
     "title": "Import Configuration",
@@ -188,10 +196,14 @@
     "apply_to_all_tooltip": "Different models may support different parameters or valid ranges, and will try to apply the current configuration to other models as much as possible"
   },
   "guide": {
+    "model_selector": "Model Selector",
+    "model_selector_desc": "You can quickly select and manage AI models to use here. Multiple selections are supported, and selected models will answer your questions simultaneously",
     "use_system_prompt": "Use System Prompt",
     "use_system_prompt_desc": "You can select system prompts here, and also switch between them using left/right keys while typing",
     "shortcuts": "Input Shortcuts",
     "shortcuts_desc": "Press / key in the input box to select and execute quick commands",
+    "resend_message": "Resend Message",
+    "resend_message_desc": "When the current model encounters an error, you can resend the request using this button",
     "model_select": "Model Selection",
     "model_select_desc": "You can select models here and filter them by typing text",
     "chat_options": "Chat Parameters",

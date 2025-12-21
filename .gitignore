@@ -1,7 +1,34 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Production builds
+dist
+dist-ssr
+build
+.output
+dev-dist
+
+# WXT (Browser Extension Framework)
+.wxt
+.wxt-cache
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
 # Logs
 logs
-.output*
-.wxt*
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -9,13 +36,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
 # Editor directories and files
+.vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -23,5 +53,45 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*~
 
-dev-dist
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+tmp
+temp
+*.tmp
+
+# PWA Service Worker cache
+sw.js
+workbox-*.js
+
+# Compressed files
+*.gz
+*.br
+*.zip
+
+# Claude AI settings (local only)
+.claude/settings.local.json
+
+# Package manager lock files (optional - uncomment if needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Debug files
+.vite-inspect
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache

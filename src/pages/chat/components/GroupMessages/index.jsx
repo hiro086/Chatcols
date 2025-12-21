@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect, useRef } from 'react';
 import UserMessage from '../UserMessage';
 import AiMessage from '../AiMessage';
-import ChatHolder from '../ChatHolder';
 import { getChatMessageInfo, useActiveChatsMessages } from '@src/utils/chat';
 import { useAutoScrollToBottomRef } from '@src/utils/use';
 
@@ -50,6 +49,11 @@ export default function ({ loading }) {
       ))}
     </div>
   ) : (
-    <ChatHolder />
+    // <ChatHolder />
+    <div className="w-full flex flex-col items-center justify-center h-full px-4 select-none">
+      <p className="text-[#666] mt-4 text-sm text-center">
+          "小孩子才做选择，大人当然全都要！"
+        </p>
+    </div>
   );
 }

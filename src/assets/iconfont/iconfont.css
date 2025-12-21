@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5029778 */
+  src: url('iconfont.eot?t=1762588472999'); /* IE9 */
+  src: url('iconfont.eot?t=1762588472999#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('iconfont.woff2?t=1762588472999') format('woff2'),
+       url('iconfont.woff?t=1762588472999') format('woff'),
+       url('iconfont.ttf?t=1762588472999') format('truetype'),
+       url('iconfont.svg?t=1762588472999#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 24px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-up-square-fill:before {
+  content: "\e60f";
+}
+
+.icon-uploadimg:before {
+  content: "\e6fd";
+}
+
+.icon-license:before {
+  content: "\e7cb";
+}
+
+.icon-dark_mode:before {
+  content: "\e651";
+}
+
+.icon-light_mode:before {
+  content: "\ee4a";
+}
+
+.icon-settings1:before {
+  content: "\e622";
+}
+
+.icon-market_new_tab:before {
+  content: "\e6fc";
+}
+
+.icon-agentguanli:before {
+  content: "\e669";
+}
+
+.icon-userguide:before {
+  content: "\e62d";
+}
+

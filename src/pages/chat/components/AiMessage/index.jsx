@@ -88,8 +88,8 @@ export default function AiMessage({
             (plain
               ? ''
               : mobile
-              ? 'pl-2 pr-2 py-2 dark:bg-teal-900 bg-slate-200 rounded-r-2xl rounded-l'
-              : 'pl-2 pr-4 py-2 dark:bg-teal-900 bg-slate-200 rounded-r-lg rounded-l-md')
+              ? 'pl-2 pr-2 py-2 dark:bg-[#1A1A1A] bg-white rounded-tr-md rounded-tl rounded-r'
+              : 'pl-2 pr-4 py-2 dark:bg-[#1A1A1A] bg-white rounded-tr-md rounded-tl-md rounded-br-md')
           }
         >
           {mobile && (
@@ -223,7 +223,8 @@ export default function AiMessage({
               }
             >
               <CopyToClipboard
-                text={content.trim()}
+                // text={content.trim()}
+                text={content}
                 onCopy={() => message.success(t('common.copied'))}
               >
                 <i className="opacity-0 group-hover:opacity-60 transition-opacity duration-300 text-base  i-ri-file-copy-line cursor-pointer"></i>

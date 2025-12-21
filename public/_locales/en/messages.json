@@ -1,13 +1,13 @@
 {
   "extName": {
-    "message": "Silo - Multi-model chat, text-to-images"
+    "message": "Chatcols - Multi-model chat, text-to-images"
   },
   "explain": {
     "message": "Explain: %s",
     "description": "Explain the selected text"
   },
   "copilot": {
-    "message": "Ask Silo",
-    "description": "Ask Silo"
+    "message": "Ask Chatcols",
+    "description": "Ask Chatcols"
   }
 }

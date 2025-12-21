@@ -31,7 +31,7 @@ export default ({ ctx }) => {
   const _setPayload = (message = '') => {
     setPayload({
       message: message,
-      type: 'silo:web-copilot-query',
+      type: 'chatcols:web-copilot-query',
       context: getPageContext(),
     });
     setShowPage(true);
@@ -54,7 +54,7 @@ export default ({ ctx }) => {
   }, [showPage]);
 
   return (
-    <div className="fixed right-0 my-auto top-0 bottom-0 flex items-center">
+    <div className="fixed top-0 bottom-0 right-0 flex items-center my-auto">
       <Modal
         visible={showPage}
         close={() => {

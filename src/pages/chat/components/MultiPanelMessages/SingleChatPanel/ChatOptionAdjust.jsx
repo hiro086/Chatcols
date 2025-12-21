@@ -20,7 +20,7 @@ export default function ({ model }) {
     : _options.filter(option => !option.vision);
   return (
     <div className="flex flex-col !w-64 p-1" id={GUIDE_STEP.CHAT_OPTIONS_MODAL}>
-      {options.map(option => (
+      {_options.map(option => (
         <div key={option.prop} className="flex flex-col">
           <div className="flex items-center">
             <span>{t(option.name)}</span>
@@ -29,7 +29,7 @@ export default function ({ model }) {
               placement="top"
               showArrow={false}
             >
-              <i className="i-mingcute-information-fill ml-2 mt-2" />
+              <i className="mt-2 ml-2 i-mingcute-information-fill" />
             </Tooltip>
             <InputNumber
               size="small"
@@ -42,7 +42,7 @@ export default function ({ model }) {
             />
           </div>
           <Slider
-            className="mb-2 mt-1"
+            className="mt-1 mb-2"
             min={Math.min(option.min, option.value)}
             max={Math.max(option.max, option.value)}
             step={option.step}

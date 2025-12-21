@@ -1,6 +1,6 @@
 {
-  "name": "Silo",
-  "short_name": "Silo",
+  "name": "Chatcols",
+  "short_name": "Chatcols",
   "description": "Multi-model chat, text-to-image",
   "start_url": "/",
   "display": "standalone",

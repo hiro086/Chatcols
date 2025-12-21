@@ -57,9 +57,9 @@ export default function ({ close, payload, visible }) {
       if (typeof event.data === 'string') {
         const message = JSON.parse(event.data);
 
-        if (message.type === 'silo:web-copilot-close') {
+        if (message.type === 'chatcols:web-copilot-close') {
           close();
-        } else if (message.type === 'silo:web-copilot-move') {
+        } else if (message.type === 'chatcols:web-copilot-move') {
           const oldOffset = offsetRef.current;
           if (message.timestamp >= oldOffset.timestamp) {
             const position = message.position;
@@ -76,7 +76,7 @@ export default function ({ close, payload, visible }) {
             iframeRef.current.style.transform = `translate3d(${offsetRef.current.x}px, ${offsetRef.current.y}px,0)`;
           } else {
             console.warn(
-              'silo:web-copilot-move 消息的 timestamp 小于旧的 timestamp'
+              'chatcols:web-copilot-move 消息的 timestamp 小于旧的 timestamp'
             );
           }
         }
@@ -94,7 +94,7 @@ export default function ({ close, payload, visible }) {
   function sendThemeMessage() {
     iframeRef.current.contentWindow.postMessage(
       JSON.stringify({
-        type: 'silo:web-copilot-init',
+        type: 'chatcols:web-copilot-init',
         isDarkTheme: isPageDarkTheme(),
         isIFrame: true,
       }),
