@@ -47,10 +47,6 @@
   "error": {
     "model_not_vlm": "This model is not a visual language model, please only use text prompts"
   },
-  "image": {
-    "start_generate": "Start Generate",
-    "config_options": "Adjust Options"
-  },
   "system_prompt": {
     "add_new": "Add system prompt",
     "edit": "Edit system prompt",
@@ -58,8 +54,6 @@
   },
   "header": {
     "add_model": "Add model",
-    "switch_to_chat": "Switch to chat mode",
-    "switch_to_image": "Switch to image mode",
     "multi_column_mode": "Multi-column mode",
     "dual_line_mode": "Dual-line mode",
     "exit_zen_mode": "Exit Zen mode",
@@ -153,11 +147,6 @@
     "select_json": "Select JSON File",
     "file_parsed": "File parsed successfully. Page will refresh after confirming import."
   },
-  "image_generations": {
-    "generating": "Generating...",
-    "generation_failed": "Generation failed",
-    "click_to_preview": "Click to preview"
-  },
   "custom_model": {
     "reload_notice": "After custom model adjustment, the page will be automatically reloaded. Please ensure that the page data does not need to be processed",
     "select_placeholder": "Modify the added model, or select a preset to import",
@@ -182,18 +171,6 @@
     "details_link_placeholder": "For example, the model url on HuggingFace",
     "api_version": "API Version",
     "vlm": "VLM"
-  },
-  "image_options": {
-    "image_size_tooltip": "Width and Height of Generated Images (pixels)",
-    "image_size_label": "Image Size",
-    "num_inference_steps_tooltip": "Number of iterations for image generation. More steps usually produce better results but require longer processing time",
-    "num_inference_steps_label": "Inference Steps",
-    "batch_size_tooltip": "Number of Images Generated at Once",
-    "batch_size_label": "Counts",
-    "guidance_scale_tooltip": "Control the similarity of the generated image to the prompt. Higher values produce images closer to the prompt but may reduce overall quality",
-    "guidance_scale_label": "Guidance Scale",
-    "apply_to_all": "Apply to all",
-    "apply_to_all_tooltip": "Different models may support different parameters or valid ranges, and will try to apply the current configuration to other models as much as possible"
   },
   "guide": {
     "model_selector": "Model Selector",

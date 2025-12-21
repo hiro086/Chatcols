@@ -47,10 +47,6 @@
   "error": {
     "model_not_vlm": "该模型不是视觉语言模型，请仅使用文本提示"
   },
-  "image": {
-    "start_generate": "开始生成",
-    "config_options": "调整配置"
-  },
   "system_prompt": {
     "add_new": "新增系统提示词",
     "edit": "编辑系统提示词",
@@ -58,8 +54,6 @@
   },
   "header": {
     "add_model": "新增模型",
-    "switch_to_chat": "切换对话模式",
-    "switch_to_image": "切换文生图模式",
     "multi_column_mode": "多列模式",
     "dual_line_mode": "双行模式",
     "exit_zen_mode": "退出全屏",
@@ -154,11 +148,6 @@
     "select_json": "选择 JSON 文件",
     "file_parsed": "文件解析成功，确认导入后将刷新页面"
   },
-  "image_generations": {
-    "generating": "正在生成...",
-    "generation_failed": "生成失败",
-    "click_to_preview": "点击预览"
-  },
   "custom_model": {
     "reload_notice": "自定义模型调整后，会自动重载页面，请确保页面数据无需处理",
     "select_placeholder": "修改已添加的模型，或是选择预设导入",
@@ -184,18 +173,6 @@
     "details_link_placeholder": "比如 HuggingFace 的模型地址",
     "api_version": "API 版本",
     "vlm": "视觉模型"
-  },
-  "image_options": {
-    "image_size_tooltip": "生成图像的宽度和高度（像素）",
-    "image_size_label": "图像尺寸",
-    "num_inference_steps_tooltip": "生成图像的迭代次数。更多步骤通常会产生更好的结果，但需要更长的处理时间",
-    "num_inference_steps_label": "推理步骤",
-    "batch_size_tooltip": "一次生成的图像数量",
-    "batch_size_label": "生成图像数量",
-    "guidance_scale_tooltip": "控制生成图像与提示的相似程度。较高的值会产生更接近提示的图像，但可能降低整体质量",
-    "guidance_scale_label": "指导比例",
-    "apply_to_all": "应用到全部",
-    "apply_to_all_tooltip": "不同模型支持的参数或有效区间可能存在不同，将尽可能将当前配置应用到其他的模型"
   },
   "guide": {
     "model_selector": "模型选择器",

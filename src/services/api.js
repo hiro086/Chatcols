@@ -4,7 +4,6 @@ import {
   getChatCompletion,
   getJsonDataFromLocalStorage,
 } from "../utils/helpers";
-import imageGenPrompt from "./prompt/image-gen.txt?raw";
 import { message } from "tdesign-react/es/message";
 import "tdesign-react/es/message/style/css.js";
 import { isMixedThinkingModel } from "@src/utils/models";
@@ -26,17 +25,6 @@ export const fetchUserInfo = async () => {
     throw new Error(await res.text());
   }
   return await res.json();
-};
-
-export const getOptimizedPrompts = async (userInput) => {
-  const result = await getChatCompletion(userInput, {
-    json: true,
-    systemPrompt: imageGenPrompt,
-  });
-  const { advise, optimized } = result;
-  if ([advise, optimized].some((item) => !item))
-    return getOptimizedPrompts(userInput);
-  return { advise, optimized };
 };
 
 function isEnglish(text) {

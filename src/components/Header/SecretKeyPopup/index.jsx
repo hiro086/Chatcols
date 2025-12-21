@@ -112,7 +112,7 @@ const SecretKeyPopup = forwardRef(
                 <DotsLogo className="h-2 mr-2 rounded-md md:h-4" />
               </div>
               
-              <span className="mt-2 text-sm text-gray-500">
+              <span className="mb-2 text-sm text-gray-500">
                 {t("header.popup.intro1")}
                 <a href="https://aianswers.cn" target="_blank">
                   {t("header.popup.intro4")}
@@ -146,7 +146,7 @@ const SecretKeyPopup = forwardRef(
                 )}
               </div>
               {secretKey=="sk-18TyZMF9c5G37zM7AMsG2UjXlIftgPVCSUFI0FjAMv4AGmmd" && (
-                <span className="mt-1 text-xs text-blue-400 text-left w-full">*此试用令牌仅支持三个模型：gpt-5-nano、claude-haiku-4.5、gemini-2.5-flash</span>
+                <span className="mt-1 text-xs text-blue-400 text-left w-full">*试用令牌由<a href="https://aianswers.cn" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-300">智答API</a>提供，此令牌支持有限模型的无限次免费使用：gpt-5-nano、claude-haiku-4.5、gemini-2.5-flash</span>
               )}
               {!!secretKey && error && (
                 <span className="mt-2 text-sm text-red-400">{error}</span>
