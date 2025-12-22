@@ -95,3 +95,44 @@ workbox-*.js
 
 # Optional stylelint cache
 .stylelintcache
+
+# ===================================
+# Capacitor / Android / iOS
+# ===================================
+
+# Capacitor
+.capacitor
+
+# Android
+android/app/build/
+android/app/release/
+android/app/debug/
+android/.gradle/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/.idea/
+android/*.iml
+android/.cxx/
+android/build/
+android/captures/
+android/.externalNativeBuild/
+android/.DS_Store
+
+# Android signing keys (IMPORTANT: Never commit these!)
+*.jks
+*.keystore
+*.properties
+!gradle-wrapper.properties
+
+# iOS (for future use)
+ios/App/Pods/
+ios/App/Podfile.lock
+ios/App/build/
+ios/App/.DS_Store
+ios/.DS_Store
+
+# Generated Capacitor files
+android/app/src/main/assets/public/
+ios/App/App/public/
