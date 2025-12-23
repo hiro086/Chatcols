@@ -54,6 +54,7 @@
   },
   "header": {
     "add_model": "Add model",
+    "toggle_theme": "Toggle theme",
     "multi_column_mode": "Multi-column mode",
     "dual_line_mode": "Dual-line mode",
     "exit_zen_mode": "Exit Zen mode",

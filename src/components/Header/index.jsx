@@ -147,14 +147,16 @@ export default function () {
             ></i>
           </Tooltip>
 
-          <i
-            className={
-              (isDark
-                ? "iconfont icon-light_mode"
-                : "iconfont icon-dark_mode") + " cursor-pointer mr-4"
-            }
-            onClick={() => setDarkMode(!isDark)}
-          ></i>
+          <Tooltip placement="bottom" content={t("header.toggle_theme")}>
+            <i
+              className={
+                (isDark
+                  ? "iconfont icon-light_mode"
+                  : "iconfont icon-dark_mode") + " cursor-pointer mr-4"
+              }
+              onClick={() => setDarkMode(!isDark)}
+            ></i>
+          </Tooltip>
           <Tooltip placement="bottom" content={t("header.guide")}>
             <i
               className="mr-4 cursor-pointer iconfont icon-userguide"
@@ -166,10 +168,10 @@ export default function () {
             ></i>
           </Tooltip>
           <Tooltip placement="bottom" content={t("header.modify_key")}>
-            <i
-              className="mr-4 cursor-pointer iconfont icon-license"
-              onClick={() => secretKeyPopupRef.current.open()}
-            ></i>
+            <div className="relative mr-4 cursor-pointer" onClick={() => secretKeyPopupRef.current.open()}>
+              <i className="iconfont icon-license"></i>
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-1 h-1 bg-primary rounded-full"></span>
+            </div>
           </Tooltip>
           <Dropdown
             maxColumnWidth="160"

@@ -153,7 +153,6 @@ export default function ({
     setInput("");
     setImage(null);
     setHistoryIndex(NO_INPUT_HISTORY_INDEX);
-    umami.track("chat", { models: `${activeModels.length}` });
   };
 
   useEffect(() => {

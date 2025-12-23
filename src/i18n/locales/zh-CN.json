@@ -54,6 +54,7 @@
   },
   "header": {
     "add_model": "新增模型",
+    "toggle_theme": "切换主题",
     "multi_column_mode": "多列模式",
     "dual_line_mode": "双行模式",
     "exit_zen_mode": "退出全屏",
