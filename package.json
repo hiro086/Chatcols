@@ -14,10 +14,11 @@
     "build:edge": "wxt build -b edge",
     "zip:edge": "wxt zip -b edge",
     "generate-pwa-icons": "node scripts/generate-pwa-icons.js",
-    "cap:sync": "npm run build && npx cap sync",
+    "clean:android:gz": "node scripts/clean-android-gz.js",
+    "cap:sync": "npm run build && node scripts/clean-android-gz.js && npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:run:android": "npm run cap:sync && npx cap run android",
-    "build:android": "npm run build && npx cap sync android && cd android && gradlew assembleRelease"
+    "build:android": "npm run build && node scripts/clean-android-gz.js && npx cap sync android && cd android && gradlew assembleRelease"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",

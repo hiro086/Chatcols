@@ -76,6 +76,9 @@ workbox-*.js
 # Claude AI settings (local only)
 .claude/settings.local.json
 
+# GitHub Actions workflows (keep local only)
+.github/
+
 # Package manager lock files (optional - uncomment if needed)
 # package-lock.json
 # yarn.lock
@@ -112,6 +115,7 @@ android/gradle/
 android/gradlew
 android/gradlew.bat
 android/local.properties
+android/keystore.properties
 android/.idea/
 android/*.iml
 android/.cxx/
